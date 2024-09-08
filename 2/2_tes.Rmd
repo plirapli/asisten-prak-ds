@@ -1,0 +1,170 @@
+---
+title: "Pertemuan 2 Tes"
+output: pdf_document
+date: "2024-09-08"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Sorting dan Data Visualization
+
+## Sorting
+
+```{r}
+library(dslabs)
+data(murders)
+```
+
+Nampilin dataset murder
+
+```{r}
+View(murders)
+```
+
+Nampilin hasil total murders
+
+```{r}
+murders$total
+```
+
+### Fungsi sort(), order(), dan rank()
+
+```{r}
+## sort menampilkan valuenya
+sorted <- sort(murders$total)
+sorted
+
+## order itu menampilkan indexnya
+xOrder <- c(31, 4, 15, 92, 65)
+order(xOrder)
+
+## rank
+xRank <- c(31, 4, 15, 92, 65)
+rank(xRank)
+rank(-xRank)
+```
+
+### Fungsi max() dan which.max()
+
+Fungsi max() digunakan untuk mengidentifikasi data dengan nilai terbesar, sedangkan which.max digunakan untuk menampilkan *indeks* data yang memiliki nilai terbesar. Kebalikan dari max() dan which.max() adalah min() dan which.min()
+
+```{r}
+highest = max(murders$total)
+lowest = min(murders$total)
+
+index_max = which.max(murders$total)
+index_min = which.min(murders$total)
+
+# menampilkan angka pembunuhan terbesar dan terkecil
+highest
+lowest
+
+# menampilkan wilayah dengan total kasus pembunuhan terbesar dan terkecil
+murders$state[index_max]
+murders$state[index_min]
+```
+
+## Data Visualization
+
+### Plot
+
+Fungsi plot() di R adalah fungsi dasar yang digunakan untuk membuat berbagai jenis grafik atau plot. Dengan plot(), kita bisa bikin scatter plot, line plot, dan berbagai jenis grafik lainnya tergantung pada data yang diberikan.
+
+#### Scatter Plot
+
+```{r}
+# Scatter Plot (Total kasus pembunuhan pada tiap populasi)
+populasi = murders$population / 10^6
+total_pembunuhan = murders$total
+
+plot(
+  populasi,
+  total_pembunuhan,
+  main = "Total kasus pembunuhan pada tiap populasi",
+  xlab = "Populasi (per 1 juta jiwa)",
+  ylab = "Total Kasus Pembunuhan"
+)
+```
+
+#### Line Plot
+
+Line plot biasanya dipakai untuk data timeseries. Salah satu contohnya adalah grafik kenaikan harga BBM. Pada praktikum ini, kita akan mencoba membuat sebuah line plot untuk menampilkan data grafik kenaikan harga BBM (premium) dari tahun 2000 s/d 2016.
+
+Catatan: data diambil dari <https://databoks.katadata.co.id/datapublish/2016/08/05/harga-premium-di-indonesia-1970-2015>
+
+```{r}
+data_bbm = data.frame(
+  tahun = c(2000:2016),
+  harga = c(1150, 1450, 1750, 1810, 2400, 4500, 4500, 4500, 6000, 5000, 4500, 4500, 4500, 6500, 8500, 7400, 6550)
+)
+
+plot(
+  data_bbm$tahun,
+  data_bbm$harga,
+  main = "Harga Premium di Indonesia 2000-2016",
+  xlab = "Tahun",
+  ylab = "Harga per Liter (Rp)",
+  type = "l"
+)
+
+# type-nya ada p (scatter), l (line), s (stair), h (histogram), b (s dan l), o (kaya b tapi nyambung garisnya)
+```
+
+### Barplot
+
+Selain pake plot, kita juga bisa make fungsi barplot() buat bikin plot yang bentukannya kek batang. Berikut adalah contoh untuk membuat grafik bbm menggunakan barplot(). Pastiin temen-temen udah bikin data_bbm.
+
+```{r}
+barplot(
+  data_bbm$harga ~ data_bbm$tahun,
+  las = 2 # <- buat nge-rotate x label biar semua labelnya keliatan
+)
+```
+
+
+### Histogram
+
+Histogram adalah grafik yang digunakan untuk nampilin distribusi frekuensi dari suatu dataset.
+
+```{r}
+# Histogram
+x = with(murders, population)
+
+hist(
+  x,
+  main = "Gatau ini apa",
+  xlab = "Populasi",
+  ylab = "Frekuensi",
+  col = "yellow",
+  border = "black",
+)
+```
+
+### Boxplot
+
+Boxplot adalah grafik yang digunakan untuk menunjukkan distribusi data berdasarkan kuartil. Grafik ini membantu kita memahami penyebaran, simetri, dan potensi outlier dalam data. Berikut adalah contoh untuk menampilkan persentase tingkat pembunuhan pada tiap-tiap region (Northeast, South, North Central, dan West).
+
+```{r}
+murders$rate = with(murders, total / population * 100)
+boxplot(
+  rate~region,
+  data = murders,
+  main = "Tingkat Pembunuhan tiap Region",
+  xlab = "Nama Region",
+  ylab = "Tingkat Pembunuhan (%)"
+)
+```
+
+Bagian-bagian dari Boxplot: - Kotak (Box): Bagian tengah dari boxplot adalah kotak yang mewakili rentang interkuartil (interquartile range atau IQR). - Q1 (Kuartil 1): Titik di mana 25% data berada di bawahnya. - Q3 (Kuartil 3): Titik di mana 75% data berada di bawahnya. - Median (Garis di Dalam Kotak): Garis horizontal di dalam kotak menunjukkan nilai median (atau kuartil ke-2), yaitu titik di mana 50% data berada di bawahnya.
+
+Cara Membaca Boxplot: - Letak Median: Jika median (garis di dalam kotak) berada di tengah kotak, distribusi data merata. Jika tidak, datanya miring (skewed). - Median di dekat Q1: Distribusi miring ke kanan (positively skewed). Datanya kecil-kecil. - Median di dekat Q3: Distribusi miring ke kiri (negatively skewed). Datanya gede-gede. - Ukuran Kotak (IQR): Semakin besar kotaknya, semakin besar variasi dalam data di antara kuartil 1 dan kuartil 3. - Garis: Jika garis panjangnya tidak sama, itu menunjukkan penyebaran data yang tidak simetris. - Outlier: Titik di luar garis adalah outlier. Semakin banyak outlier, semakin ekstrim beberapa data dalam dataset.
+
+### Image
+
+```{r}
+x  <- matrix(1:120, 12, 10)
+image(x)
+x
+```
