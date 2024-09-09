@@ -43,9 +43,10 @@ urutan_terbesar = sort(murders$total, decreasing = TRUE)
 urutan_terkecil
 urutan_terbesar
 ```
+
 #### Fungsi order()
 
-Fungsi order() bakalan ngasih *index* yang akan mengurutkan elemen vektor. Artinya, dia ngasih tau urutan *index elemen* yang akan menghasilkan urutan yang benar. Kata kuncinya di *INDEX ELEMEN*. Kalo sort itu ngasih nilai/value, sedangkan kalo order itu ngasih *URUTAN INDEX ELEMEN*. Ingat, index di R itu *dimulai dari 1*.
+Fungsi order() bakalan ngasih **index** yang akan mengurutkan elemen vektor. Artinya, dia ngasih tau urutan **index elemen** yang akan menghasilkan urutan yang benar. Kata kuncinya di **INDEX ELEMEN**. Kalo sort itu ngasih nilai/value, sedangkan kalo order itu ngasih **URUTAN INDEX ELEMEN**. Ingat, index di R itu **dimulai dari 1**.
 
 ```{r}
 index_urutan_kasus_pembunuhan_terkecil = order(murders$total)
@@ -55,13 +56,11 @@ index_urutan_kasus_pembunuhan_terkecil
 index_urutan_kasus_pembunuhan_terbesar
 ```
 
-Penjelasan:
-- Pada "index_urutan_kasus_pembunuhan_terkecil", urutan pertama kasus pembunuhan terbanyak diduduki oleh index 46, juara kedua index 35, juara ketiga index 30, dsb.
-- Pada "index_urutan_kasus_pembunuhan_terbesar", urutan pertama kasus pembunuhan terkecil diduduki oleh index 5, juara kedua index 44, juara ketiga index 10, dsb.
+Penjelasan: - Pada "index_urutan_kasus_pembunuhan_terkecil", urutan pertama kasus pembunuhan terbanyak diduduki oleh index 46, juara kedua index 35, juara ketiga index 30, dsb. - Pada "index_urutan_kasus_pembunuhan_terbesar", urutan pertama kasus pembunuhan terkecil diduduki oleh index 5, juara kedua index 44, juara ketiga index 10, dsb.
 
 #### Fungsi rank()
 
-Fungsi rank() memberikan *ranking (peringkat)* untuk setiap elemen dalam vektor berdasarkan urutan nilainya.
+Fungsi rank() memberikan **ranking (peringkat)** untuk setiap elemen dalam vektor berdasarkan urutan nilainya.
 
 ```{r}
 x <- c(11, 26, 56, 99, 8)
@@ -69,13 +68,11 @@ rank(x)
 rank(-x)
 ```
 
-Penjelasan:
-- Pada rank dari yg terkecil ke terbesar, Angka 11 berada di urutan ke-2, angka 26 di urutan ke-3, angka 56 di urutan 4, dst.
-- Pada rank dari yg terbesar ke terkecil, Angka 11 berada di urutan ke-4, angka 26 di urutan ke-3, angka 56 di urutan 2, dst.
+Penjelasan: - Pada rank dari yg terkecil ke terbesar, Angka 11 berada di urutan ke-2, angka 26 di urutan ke-3, angka 56 di urutan 4, dst. - Pada rank dari yg terbesar ke terkecil, Angka 11 berada di urutan ke-4, angka 26 di urutan ke-3, angka 56 di urutan 2, dst.
 
 ### Fungsi max() dan which.max()
 
-Fungsi max() digunakan untuk mengidentifikasi data dengan nilai terbesar, sedangkan which.max digunakan untuk menampilkan *index* data yang memiliki nilai terbesar. Kebalikan dari max() dan which.max() adalah min() dan which.min()
+Fungsi max() digunakan untuk mengidentifikasi data dengan nilai terbesar, sedangkan which.max digunakan untuk menampilkan **index** data yang memiliki nilai terbesar. Kebalikan dari max() dan which.max() adalah min() dan which.min()
 
 ```{r}
 highest = max(murders$total)
@@ -191,7 +188,7 @@ hist(
 Boxplot adalah grafik yang digunakan untuk menunjukkan distribusi data berdasarkan kuartil. Grafik ini membantu kita memahami penyebaran, simetri, dan potensi outlier dalam data. Berikut adalah contoh untuk menampilkan persentase tingkat pembunuhan pada tiap-tiap region (Northeast, South, North Central, dan West).
 
 ```{r}
-murders$rate = with(murders, total / population * 100)
+murders$rate = murders$total / murders$population * 100 # <- Kalo mau enak dibaca dikali 100000
 boxplot(
   rate~region,
   data = murders,
