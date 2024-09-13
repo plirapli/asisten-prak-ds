@@ -1,0 +1,80 @@
+---
+title: "IF-B (2023/2024)"
+author: "plirapli"
+date: "`r Sys.Date()`"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Intro
+
+## Baca Petunjuk Terlebih Dahulu!
+
+1.  Kerjakan soal-soal yang ada! Jangan lupa tulis NAMA dan NIM pada author!
+2.  Kuis terdiri dari 2 bagian yaitu bagian pertama dan bagian kedua
+3.  Jawablah dengan mengisi chunk dibawah soal!
+4.  Durasi pengerjaan sesuai selama 12 jam.
+5.  No toleransi pengumpulan telat. Ingat, telat kemungkinan terburuk ga ada nilai kuis!
+6.  Misal soal rancu bisa menghubungi asisten terkait
+7.  Export hasil pekerjaan dalam format PDF/Word & sesuaikan nama file sesuai NIM masing-masing.
+
+## BAGIAN PERTAMA
+
+1.  Load library apa saja yang kira-kira digunakan! Lalu gunakan data 'us_contagious_diseases'! **point 1**
+
+```{r}
+
+```
+
+2.  Tampilkan semua nama kolom pada data frame yang ada! **point 5**
+
+```{r}
+
+```
+
+3.  Tampilkan tipe data pada kolom penyakit! **point 5**
+
+```{r}
+
+```
+
+4.  Tampilkan 10 data penyakit rubella teratas diurutkan berdasarkan jumlah kasusnya dan terjadi pada antara tahun 2000 dan 2005! **point 11**
+
+```{r}
+
+```
+
+5.  Klasifikasikan data tersebut berdasarkan jumlah kasusnya dengan kondisi:
+
+    -   Jumlah kasus kurang dari 500 dikategorikan sebagai "Biasa"
+    -   Jumlah kasus lebih dari 2000 dikategorikan sebagai "Azab
+    -   Jumlah kasus antara kedua kondisi diatas dikategorikan sebagai "Cobaan"\
+
+    NB : jika dirasa jumlah data hasilnya terlalu banyak boleh menggunakan fungsi top_n() atau head() **point 10**
+
+```{r}
+
+```
+
+6.  Tambahkan kolom baru pada data 'us_contagious_diseases' bernama "category".\
+    Kolom tersebut berisi implementasi no. 5\
+    Tambahkan juga kolom baru bernama "rate" yang berusu hasil bagi jumlah kasus dengan populasi dikalikan 100000! **point 10**
+
+```{r}
+
+```
+
+7.  Tampilkan kesimpulan pada data nomor 6 dikelompokkan berdasarkan negara bagian yang isinya nama negara bagian & rata-rata rate per negara bagian! **point 8**
+
+```{r}
+
+```
+
+8.  Lakukan visualisasi pada hasil nomor 7! (Bebas menggunakan plot, boxplot, hist, ggplot2 dsb) **point 5**
+
+```{r}
+
+```
