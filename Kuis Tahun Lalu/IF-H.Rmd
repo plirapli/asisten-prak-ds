@@ -1,0 +1,97 @@
+---
+title: "IF-H (2023/2024)"
+author: "plirapli"
+date: "`r Sys.Date()`"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Intro
+
+1.  You may use either personal computer or lab's computer.
+2.  Submit the knitted .pdf document.
+3.  2 hours working duration + 5 minutes to submit.
+4.  Close book, 1 A4 cheat sheet allowed.
+5.  Googling, WhatsApp, ig, social media, and other communication media are prohibited.
+6.  Bags and cell phones are placed in front.
+
+Break a leg!
+
+1.  Load library needed! Then use data 'movielens'! **point 2**
+
+```{r No1}
+# Answer
+```
+
+2.  Show the structure of Movielens data! **point 5**
+
+```{r No2}
+# Answer
+```
+
+Answer these questions!\
+a. The Class of movielens object: ...\
+b. Number of Observations: ...\
+c. Number of Variables: ...\
+
+3.  Implement a function that can be used if you only want to display the variable names of the movielens object! **point 5**
+
+```{r No3}
+# Answer
+```
+
+4.  Write a function to find out the data type of the genres variable, and explain at the bottom of the chunk why the genres variable uses that data type! **point 5**
+
+```{r No4}
+# Answer
+```
+
+explanation: **Genres use factor data type, because genres store a categorical data, such as "Action", "Comedy", "Romance", etc.**
+
+5.  Show the last 5 observations of Movielens data! **point 5**
+
+```{r No5}
+# Answer
+```
+
+6.  Show movielens top 10 observations without movieId & userId variables, save them into an object named "tiny_df"! **point 15**
+
+```{r no6}
+# Answer
+```
+
+7.  Show the top 20 data with only romance genre, sorted by the highest rating.\
+    Show data with title, year, genres, and rating variables only! **point 15**\
+    Eliminate data with repeated titles (plus points) **point 5**
+
+```{r no7}
+# Answer
+```
+
+8.  Make a histogram with the x-axis the year the movie was made and the y-axis the frequency of the number of movies in that year.\
+    Give the histogram a yellow color and a blue border and title it accordingly.\
+    Below the chunk write the conclusion that can be drawn from your histogram! **point 13**
+
+```{r No8}
+# Answer
+```
+
+Conclusion: ...
+
+9.  Classify the data of object "tiny_df" from question no 6 based on the rating with the following conditions:
+    -   Rating less than 2 is categorized as "Negative"
+    -   Rating more than 3 is categorized as "Positive"
+    -   Ratings between the two conditions above are categorized as "Mixed" **point 15**
+
+```{r No9}
+# Answer
+```
+
+10. Add a new variable in the "tiny_df" data with a new column named "sentiment" that contains the implementation of number 9! **point 20**
+
+```{r No10}
+# Answer
+```
