@@ -1,0 +1,96 @@
+---
+title: "Kuis IF-A 2023/2024"
+author: "plirapli"
+date: "`r Sys.Date()`"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Intro
+
+### Baca Petunjuk Terlebih Dahulu!
+
+1.  Kerjakan soal-soal yang ada! Jangan lupa tulis **NAMA** dan NIM pada author.
+2.  Jawablah dengan mengisi chunk dibawah soal.
+3.  Durasi pengerjaan sesuai selama 2 jam.
+4.  Tidak ada toleransi pengumpulan telat. Ingat, telat kemungkinan terburuk ga ada nilai kuis!
+5.  Misal soal rancu bisa menghubungi asisten terkait
+6.  Kumpulkan hasil pekerjaan dalam format PDF & sesuaikan nama file sesuai Kuis_NIM.
+
+## Soal Kuis Prak DS IF-A
+
+1.  Load library apa saja yang kemungkinan akan digunakan! Lalu gunakan data movielens! (point 3)
+
+```{r}
+# Jawaban no. 1
+```
+
+2.  Buatlah dataframe baru dengan nama new_movielens untuk menyimpan data film diatas tahun 2000.\
+    Dataframe tersebut hanya berisi kolom ‘movieId’, ‘title’, ‘year’, ‘genres’, dan ‘rating’.\
+    Dataframe yang sudah dibuat akan dipakai untuk soal - soal selanjutnya.\
+    Setelah itu, tampilkan 10 data teratasnya! (point 12)
+
+```{r}
+# Jawaban no. 2
+```
+
+3.  Tampilkan semua nama kolom pada dataframe tersebut!\
+    Tampilkan juga panjang dari dataframe! (point 5)
+
+```{r}
+# Jawaban no. 3
+```
+
+4.  Tampilkan data dengan movieid ‘157296’! (point 5)
+
+```{r}
+# Jawaban no. 4
+```
+
+5.  Tampilkan 15 data teratas dengan genre hanya romance dengan diurutkan rating dari yang tertinggi.\
+    Tampilkan data dengan variabel title, year, genres, dan rating saja! (point 15)
+
+```{r}
+# Jawaban no. 5
+```
+
+6.  Klasifikasikan data tersebut berdasarkan ratingnya dengan kondisi:
+
+    -   Rating \<= 2.5 dikategorikan sebagai “Bad”
+    -   Rating sama dengan 5.0 dikategorikan sebagai “Good”
+    -   Rating antara kedua kondisi diatas dikategorikan sebagai “General”\
+
+    Masukkan ke suatu objek baru bernama 'category', lalu tampilkan 6 data teratas dari objek 'category'. (point 20)
+
+```{r}
+# Jawaban no. 6
+```
+
+7.  Tambahkan "category" tadi sebagai kolom baru pada data frame yang telah dibuat pada soal no. 2.\
+    Tampilkan 5 data teratas berdasarkan genre "Action" & kategori “Good” lalu urutkan dari film terbaru ke terlama! (point 15)
+
+```{r}
+# Jawaban no. 7
+```
+
+8.  Tampilkan rata-rata dan standar deviasi dari rating berdasarkan genres pada tahun 2002! (point 10)
+
+```{r}
+# Jawaban no. 8
+```
+
+9.  Lakukan visualisasi dengan plot antara rata-rata dengan standar deviasinya dari hasil nomor 8! (point 7)
+
+```{r}
+# Jawaban no. 9
+```
+
+10. Buatlah histogram dengan sumbu x yaitu tahun pembuatan film dan sumbu y banyaknya film di tahun tersebut.\
+    Di bawah chunk tuliskan kesimpulan yang dapat diperoleh dari histogram yang anda buat! (point 8)
+
+```{r}
+# Jawaban no. 10
+```
