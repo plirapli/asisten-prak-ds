@@ -1,0 +1,312 @@
+---
+title: "Pertemuan 3 - Conditional Expressions"
+author: "plirapli"
+date: "2024-09-18"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Conditional Expressions
+
+Conditional expression adalah pernyataan untuk memeriksa kondisi dan menjalankan aksi tertentu berdasarkan apakah kondisi tersebut benar (TRUE) atau salah (FALSE).
+
+```{r}
+# Kita di sini bakalan make dataset murders
+library(dslabs)
+data(murders)
+```
+
+Nampilin dataset murders
+
+```{r}
+View(murders) # <- Pas mau diknit di-comment dulu kodenya
+```
+
+## IF-ELSE IF-ELSE
+
+Struktur IF-ELSE digunakan untuk melakukan percabangan logika berdasarkan kondisi tertentu.
+
+### Contoh if else
+
+#### Contoh 1
+
+```{r}
+nilai = 98
+
+if (nilai >= 85) {
+  print("A")
+} else if (nilai >= 80 && nilai < 85) {
+  print("B+")
+} else if (nilai >= 75 && nilai < 80) {
+  print("B")
+} else if (nilai >= 70 && nilai < 75) {
+  print("C+")
+} else if (nilai >= 60 && nilai < 70) {
+  print("C")
+} else if (nilai >= 50 && nilai < 60) {
+  print("D")
+} else {
+  print("bjir ngulang")
+}
+```
+
+#### Contoh 2
+
+Pada contoh misalkan di sini kita mau mencari negara bagian mana yang punya tingkat pembunuhan kurang dari 0.5
+
+```{r}
+# Buat data murder_rate
+murder_rate = murders$total / murders$population * 100000
+
+for (i in 1:nrow(murders)) {
+  if (murder_rate[i] < 0.5) {
+    print(murders$state[i])
+  } else {
+    print("-")
+  }
+}
+```
+
+## IFELSE
+
+Selain if else normal, di R juga ada fungsi ifelse. Ini mirip seperti versi pendek dari if else normal. Fungsi ini membutuhkan 3 argumen: kondisi, kondisi ketika true, dan kondisi ketika false (mirip ternary operator).
+
+```{r}
+a = 0
+ifelse(a > 0, "kurang dari 0", "lebih dari 0")
+```
+
+Fungsi ini biasanya digunakan untuk mengevaluasi data dengan tipe vektor. IFELSE akan memeriksa setiap elemen dari vektor. Jadi ga perlu looping.
+
+Misalkan di sini kita mau ngecek populasi dari tiap state. Kalo populasi \< 1jt, maka output "dikit", tapi kalo \>= 1jt, output "banyak".
+
+```{r}
+ifelse(murders$population < 1000000, "dikit", "banyak")
+```
+
+## ANY & ALL
+
+Fungsi ANY mengevaluasi vektor logika dan mengembalikan BENAR jika salah satu entri bernilai BENAR. Sedangkan fungsi ALL mengevaluasi vektor logika dan mengembalikan BENAR jika semua entri bernilai BENAR.
+
+Misal di sini kita mau ngecek ada ga sih state yang total kasus pembunuhannya itu lebih dari 5000. Nah, kita bisa pake fungsi any(), kalo ada 1 state yang kasusnya \>5000, dia bakalan bernilai true.
+
+Beda dengan any, kalo all setiap elemen harus bernilai true supaya dia true.
+
+```{r}
+any(murders$total >= 5000)
+all(murders$total >= 2)
+```
+
+```{r}
+# Silahkan coba coba untuk mengubah aturan dari logika IF-ELSE tersebut.
+```
+
+## FUNCTION
+
+Fungsi adalah blok kode yang dirancang untuk melakukan tugas tertentu. Fungsi memudahkan kita untuk menulis kode yang bersih, terstruktur, dan dapat digunakan kembali. R memiliki banyak fungsi bawaan (built-in), tetapi kita juga dapat membuat fungsi sendiri menggunakan sintaks function.
+
+### Membuat Fungsi di R
+
+```         
+nama_fungsi = function(argumen 1, argumen 2, ...) {
+  # Kode yang akan dijalankan
+  hasil = argumen 1 + argumen 2     # Contoh operasi
+  return(hasil)                     # Mengembalikan hasil
+}
+```
+
+### Contoh bikin fungsi di R
+
+#### 1. Fungsi Sederhana tanpa Argumen
+
+```{r}
+# Bikin fungsi
+salam = function() {
+  print("Praktikum DS Pertemuan 3")
+}
+
+# Memanggil fungsi
+salam()
+```
+
+#### 2. Fungsi dengan Argumen
+
+```{r}
+penjumlahan = function(a = 4, b) {
+  hasil = a + b
+  return(hasil)
+}
+
+# Memanggil fungsi dengan argumen
+penjumlahan(3, 5)
+```
+
+#### 3. Fungsi dengan Nilai Default pada Argumen
+
+```{r}
+pengurangan = function(a = 5, b){
+  hasil = a - b
+  return(hasil)
+}
+
+# Memanggil fungsi tanpa mengubah nilai default
+pengurangan(, 10)
+
+# Memanggil fungsi dengan nilai argumen yang berbeda
+pengurangan(10, 3)
+```
+
+#### 4. Fungsi bawaan pada R
+
+```{r}
+# Fungsi Rata-Rata
+mean(c(1,2,3,4,5))
+
+# Fungsi menghitung Total
+sum(c(1,2,3,4,5))
+
+# Fungsi mengurutkan data
+sort(c(2,5,1,4,3))
+
+# dan masih banyak lagi...
+```
+
+## Perulangan (FOR LOOP)
+
+### Struktur For Loop R
+
+```         
+for (variable in sequence) {
+  Kode yang akan dijalankan pada setiap iterasi
+}
+```
+
+### Contoh For Loop
+
+```{r}
+angka = c(1, 2, 3, 4, 5)
+
+for (i in angka) {
+  print(i)
+}
+```
+
+```{r}
+for (i in 1:5) {
+  print(i)
+}
+```
+
+Penjelasan:\
+- **for (i in 1:5)**: i adalah variabel yang akan berubah nilainya dari 1 s/d 5, satu per satu.\
+- **print(i)**: Perintah yang dijalankan di setiap iterasi loop. print(i) akan menampilkan nilai dari 1 s/d 5.
+
+### Contoh dalam Data Frame
+
+```{r}
+data_siswa = data.frame(
+  nama = c("Sugab", "Awginc", "Desyan", "Bagus"),
+  matematika = c(85, 70, 90, 65),
+  bahasa_inggris = c(80, 60, 88, 75)
+)
+
+print(data_siswa)
+```
+
+#### Menghitung Nilai Rata-Rata dan Status
+
+```{r}
+# Bikin 2 kolom baru, rata_rata dan status yang awalnya diisi dengan NA (Not Available), artinya masih kosongan.
+data_siswa$rata_rata = NA
+data_siswa$status = NA
+
+# Loop ini akan berjalan untuk setiap baris dalam dataframe.
+for (i in 1:nrow(data_siswa)) {
+  # Menghtiung rerata nilai tiap siswa
+  data_siswa$rata_rata[i] = (data_siswa$matematika[i] + data_siswa$bahasa_inggris[i]) / 2
+  
+  if (data_siswa$rata_rata[i] >= 75) {
+    data_siswa$status[i] = "Lulus"
+  } else {
+    data_siswa$status[i] = "Tidak Lulus"
+  }
+}
+
+data_siswa
+```
+
+## SAPPLY
+
+sapply() adalah salah satu fungsi yang digunakan untuk menerapkan operasi atau fungsi tertentu pada elemen-elemen dari sebuah objek seperti vektor, list, atau data frame.
+
+### Sintkas dasar sapply()
+
+`sapply(X, FUN, ...)`
+
+Fungsi sapply() mengambil tiga argumen utama:
+
+-   X: Data (vektor, list, atau dataframe) yang ingin kamu iterasi.
+-   FUN: Fungsi yang ingin kamu terapkan pada setiap elemen data.
+-   ...: Argumen tambahan opsional untuk fungsi yang diterapkan.
+
+### Contoh penggunaaan sapply()
+
+#### Contoh 1
+
+Misalkan kita punya vektor yang isinya angka dan ingin menghitung akar kuadrat dari setiap elemen. Nah, daripada harus nge-looping, kita bisa pake fungsi sapply().
+
+```{r}
+# Bikin vektor
+angka = c(81, 25, 36, 121, 100, 4, 64, 16)
+```
+
+```{r}
+# Kalo pake looping
+# Membuat vektor kosong untuk menyimpan hasil
+hasil_akar_kuadrat = numeric(length(angka))
+
+for (i in 1:length(angka)) {
+  hasil_akar_kuadrat[i] = sqrt(angka[i])
+}
+hasil_akar_kuadrat
+```
+
+```{r}
+# Kalo pake sapply()
+sapply(angka, sqrt)
+```
+
+#### Contoh 2
+
+Misalnya, kita ingin menerapkan fungsi untuk mengubah semua string dalam suatu vector menjadi huruf kapital.
+
+```{r}
+# Bikin vektor yang berisi string
+buah_buahan <- c("apel", "pisang", "jeruk", "mangga")
+buah_buahan
+```
+
+```{r}
+# Kalo pake looping
+# Membuat vektor kosong untuk menyimpan hasil
+buah_buahan_kapital = buah_buahan
+
+# Menggunakan for loop untuk mengubah setiap string menjadi huruf kapital
+for (i in 1:length(buah_buahan)) {
+  buah_buahan_kapital[i] <- toupper(buah_buahan[i])
+}
+
+# Menampilkan hasil
+class(buah_buahan_kapital)
+```
+
+Penjelasan kalo pake looping:\
+- **for (i in 1:length(buah_buahan))**: Loop berjalan sebanyak panjang vektor, yang dihitung dengan fungsi length(). - **toupper(buah_buahan[i])**: Setiap elemen string diubah menjadi huruf kapital menggunakan fungsi toupper(). - **buah_buahan_kapital[i]** = ...: Hasil dari fungsi toupper() disimpan kembali dalam vektor buah_buahan_kapital.
+
+```{r}
+# Kalo pake fungsi sapply()
+sapply(buah_buahan, toupper)
+```
