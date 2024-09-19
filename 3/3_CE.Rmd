@@ -286,7 +286,7 @@ hasil_vektorisasi
 
 #### Contoh 2 (sapply() vs vektorisasi)
 
-Misalkan kita mau nambah 5 jika elemen > 50, atau mengembalikan angka aslinya jika tidak.
+Misalkan kita mau nambah 5 jika elemen > 50, atau mengembalikan angka aslinya jika tidak. Kita gabisa make vektorisasi kalo gitu.
 
 ```{r}
 # Kalo pake looping
