@@ -147,7 +147,7 @@ penjumlahan(3, 5)
 #### 3. Fungsi dengan Nilai Default pada Argumen
 
 ```{r}
-pengurangan = function(a = 5, b){
+pengurangan = function(a = 5, b) {
   hasil = a - b
   return(hasil)
 }
@@ -276,16 +276,49 @@ hasil_akar_kuadrat
 
 ```{r}
 # Kalo pake sapply()
-sapply(angka, sqrt)
+hasil_sapply = sapply(angka, sqrt)
+hasil_sapply
+
+# Kalo pake vektorisasi
+hasil_vektorisasi = sqrt(angka)
+hasil_vektorisasi
 ```
 
-#### Contoh 2
+#### Contoh 2 (sapply() vs vektorisasi)
+
+Misalkan kita mau nambah 5 jika elemen > 50, atau mengembalikan angka aslinya jika tidak.
+
+```{r}
+# Kalo pake looping
+# Membuat vektor kosong untuk menyimpan hasil
+hasil_tambah = numeric(length(angka))
+
+for (i in 1:length(angka)) {
+  if (angka[i] > 50) hasil_tambah[i] = angka[i] + 5
+  else hasil_tambah[i] = angka[i]
+}
+
+hasil_tambah
+```
+
+```{r}
+# Kalo pake sapply()
+# Bikin fungsi dulu
+kuadrat_bersyarat = function(x) {
+  if (x > 50) x+5
+  else x
+}
+
+sapply(angka, kuadrat_bersyarat)
+```
+
+#### Contoh 3
 
 Misalnya, kita ingin menerapkan fungsi untuk mengubah semua string dalam suatu vector menjadi huruf kapital.
 
 ```{r}
 # Bikin vektor yang berisi string
-buah_buahan <- c("apel", "pisang", "jeruk", "mangga")
+buah_buahan = c("apel", "pisang", "jeruk", "mangga")
 buah_buahan
 ```
 
@@ -304,7 +337,8 @@ class(buah_buahan_kapital)
 ```
 
 Penjelasan kalo pake looping:\
-- **for (i in 1:length(buah_buahan))**: Loop berjalan sebanyak panjang vektor, yang dihitung dengan fungsi length(). - **toupper(buah_buahan[i])**: Setiap elemen string diubah menjadi huruf kapital menggunakan fungsi toupper(). - **buah_buahan_kapital[i]** = ...: Hasil dari fungsi toupper() disimpan kembali dalam vektor buah_buahan_kapital.
+- **for (i in 1:length(buah_buahan))**: Loop berjalan sebanyak panjang vektor, yang dihitung dengan fungsi length(). - **toupper(buah_buahan[i])**: Setiap elemen string diubah menjadi huruf kapital menggunakan fungsi toupper().
+- **buah_buahan_kapital[i]** = ...: Hasil dari fungsi toupper() disimpan kembali dalam vektor buah_buahan_kapital.
 
 ```{r}
 # Kalo pake fungsi sapply()
