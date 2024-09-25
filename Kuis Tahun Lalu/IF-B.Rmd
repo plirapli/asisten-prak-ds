@@ -53,8 +53,8 @@ Penjelasan: ...
     -   Jumlah kasus kurang dari 500 dikategorikan sebagai "Biasa"
     -   Jumlah kasus lebih dari 2000 dikategorikan sebagai "Azab
     -   Jumlah kasus antara kedua kondisi diatas dikategorikan sebagai "Cobaan"\
-
-    NB : jika dirasa jumlah data hasilnya terlalu banyak boleh menggunakan fungsi top_n() atau head() **point 15**
+    
+    Masukkan ke dalam variabel bernama "category". **point 15**
 
 ```{r}
 
