@@ -1,0 +1,190 @@
+---
+title: "Pertemuan 7 - ggplot2"
+author: "plirapli"
+date: "`r Sys.Date()`"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Tidyverse 3 - ggplot2
+
+## Import Data
+
+Daripada kita pake library dslabs mulu buat dataset-nya,\
+sekarang kita bakalan belajar gimana caranya import data dari file.\
+Kita bakal nyoba cara import data dari .csv dan .xlsx.
+
+### Menggunakan read_csv() dari library tidyverse untuk format .csv atau .tsv
+
+```{r}
+library(tidyverse)
+```
+
+```{r}
+# Buat mastiin working directory sebelum import file
+getwd()
+
+# Set working directory
+# setwd()
+```
+
+```{r}
+data_orang = read_csv("data_orang.csv")
+```
+
+Kita juga bisa ngambil data dari internet
+
+```{r}
+data_orang = read_csv("https://raw.githubusercontent.com/r-lib/vroom/master/inst/extdata/mtcars.csv")
+```
+
+### Menggunakan read_excel dari library readxl untuk format .xlsx
+
+```{r}
+library(readxl)
+```
+
+```{r}
+data_video_game = read_excel("data_video_game.xlsx")
+```
+
+## ggplot2
+
+ggplot2 merupakan salah satu package di R buat visualisasi data yg lebih *advance*.\
+Kali ini kita mau belajar melakukan visualisasi data pada 2 dataset, yaitu vg_dataset.csv dan murders_dataset.csv. Kedua dataset tersebut dapat diunduh pada *repository* ini. Setelah di-download, kita *import* dulu datanya.
+
+```{r}
+murders = read.csv("murders_dataset.csv")
+video_game_sales = read.csv("vg_dataset.csv")
+```
+
+Filter data pada dataset "video game" biar ga kebanyakan
+
+```{r}
+video_game_sales = video_game_sales %>% filter(Year >= 2000 & Year != "N/A")
+```
+
+### Geom Point (Scatter Plot)
+
+```{r}
+# options(scipen=999) # <- Buat ngilangin notasi "e" kaya 1e+6
+
+ggplot(
+  data = murders, 
+  aes(
+    x = population,
+    y = total_murders
+  ),
+) + labs(
+  title = "Grafik Hubungan antara Populasi dengan Total Pembunuhan",
+  x = "Populasi",
+  y = "Total Kasus"
+) + geom_point()
+```
+
+### Geom Bar (Histogram)
+
+Geom bar ini mirip histogram. Misal kita mau menampilkan 5 platform dengan jumlah rilis game paling banyak.
+
+```{r}
+ggplot(
+  data = video_game_sales,
+  aes(x = Platform)
+) + labs(
+  title = "Grafik Jumlah Game yang Rilis tiap Platform",
+  x = "Platform",
+  y = "Jumlah"
+) + geom_bar()
+```
+
+### Geom Line (Line Chart)
+
+Misal, di sini kita mau nampilin total penjualan game per tahun.\
+Pertama, datanya kita filter dulu dan disimpan ke dalam variabel "new_data_vg".\
+Setelah itu, barulah datanya tadi kita tampilkan dalam bentuk line chart menggunakan geom_line().
+
+```{r}
+new_data_vg = video_game_sales %>% 
+  group_by(Year) %>%
+  summarise(total = sum(Global_Sales))
+
+ggplot(
+  data = new_data_vg,
+  aes(
+    x = Year,
+    y = total,
+    group = 1,
+  )
+) + labs(
+  title = "Grafik Total Penjualan Global per Tahun",
+  x = "Tahun",
+  y = "Total Penjualan"
+) + geom_line(colour = "blue")
+```
+
+### Geom Col
+
+Geom Col ini mirip Geom Bar tapi bisa pakai x dan y. Misal, kita mau menampilkan total Kasus Pembunuhan tiap Region. Sebelum divisualisasi, kita buat dulu datanya dan kita simpan ke dalam variabel "new_murders".
+
+```{r}
+new_murders = murders %>% 
+  group_by(region) %>%
+  summarise(total = sum(total_murders))
+```
+
+#### Horizontal Bar Chart
+
+```{r}
+ggplot(
+  data = new_murders,
+  aes(
+    y = region,
+    x = total,
+    fill = region # Memberi warna random untuk tiap region
+  )
+) + labs(
+  title = "Grafik Jumlah Kasus Pembunuhan yang tiap Region",
+  x = "Total",
+  y = "Region"
+) + geom_col()
+```
+
+#### Pie Chart
+
+```{r}
+ggplot(
+  data = new_murders,
+  aes(
+    y = "",
+    x = total,
+    fill = region # Memberi warna random untuk tiap region
+  )
+) + labs(
+  title = "Grafik Jumlah Kasus Pembunuhan yang tiap Region",
+  x = "Total",
+  y = "Region"
+) + geom_col() + coord_polar() + geom_text(
+  aes(label = total),
+  color = "white",
+  position = position_stack(vjust = 0.5)
+) + theme_void()
+```
+
+### Facet Wrap
+
+Fungsi facet_wrap() memungkinkan kita untuk memisahkan data dalam subgrafik yang terpisah berdasarkan kategori.
+
+```{r}
+ggplot(
+  data = murders,
+  aes(x = population, y = total_murders)
+) + geom_point() + facet_wrap(~region) + theme_minimal() + labs(
+  title = "Persebaran Total Kasus pada tiap Region",
+  x = "Populasi", 
+  y = "Total Kasus Pembunuhan"
+)
+```
+
