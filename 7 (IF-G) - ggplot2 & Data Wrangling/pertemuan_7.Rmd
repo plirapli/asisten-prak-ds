@@ -1,0 +1,122 @@
+---
+title: "Pertemuan 7"
+author: "plirapli"
+date: "`r Sys.Date()`"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# ggplot2 dan Data Wrangling
+
+```{r}
+library(tidyverse)
+```
+
+## GGPLOT2
+
+```{r}
+murders_dataset = read.csv("Dataset/murders_dataset.csv")
+vg_dataset = read.csv("Dataset/vg_dataset.csv")
+```
+
+### Scatter Plot
+
+Membuat scatter plot antara populasi dan total kasus pembunuhan
+
+```{r}
+ggplot(
+  murders_dataset,
+  aes(
+    x = population / 10^6,
+    y = total_murders,
+    color = region
+  )
+) + geom_point(size = 4) + labs(
+  x = "Jumlah penduduk per juta jiwa",
+  y = "Total Kasus Pembunuhan",
+  title = "Persebaran populasi dan total kasus"
+)
+```
+
+### Line Chart dan Bar Chart
+
+Grafik garis rata-rata penjualan video game per tahun
+
+```{r}
+vg_dataset = vg_dataset %>% filter(Year >= 2000 & Year != "N/A")
+
+hasil_rerata = vg_dataset %>% group_by(Year) %>% summarise(rata = mean(Global_Sales))
+
+ggplot(
+  hasil_rerata,
+  aes(
+    x = Year,
+    y = rata,
+    group = 1,
+  )
+) + geom_line(size = 0.5, color = "blue")
+```
+
+### Histogram
+
+Menghitung jumlah game yang rilis tiap platform
+
+```{r}
+ggplot(
+  vg_dataset,
+  aes(
+    x = Platform,
+    fill = Platform
+  )
+) + geom_bar(width = 0.75, color = "black")
+```
+
+### Pie chart
+
+Perbandingan jumlah kasus pembunuhan tiap region
+
+```{r}
+total_kasus = murders_dataset %>% 
+  group_by(region) %>% 
+  summarise(total = sum(total_murders))
+
+ggplot(
+  total_kasus,
+  aes(
+    x = total,
+    y = "",
+    fill = region
+  )
+) + geom_col() + coord_polar() + theme_void() + geom_text(
+  aes(label = total),
+  position = position_stack(vjust = 0.5),
+)
+```
+
+### Visualisasi berdasarkan Kelompok
+
+Membuat scatter plot antara populasi dan total kasus berdasarkan region
+
+```{r}
+ggplot(
+  murders_dataset,
+  aes(
+    x = population / 10^6,
+    y = total_murders,
+    color = region
+  )
+) + geom_point() + facet_wrap(~region) + labs(
+  x = "Jumlah penduduk per 1jt jiwa",
+  y = "Total kasus pembunuhan"
+)
+```
+
+
+
+
+
+
+
