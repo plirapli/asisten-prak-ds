@@ -44,6 +44,14 @@ salary_data = salary_data %>% rename(
 )
 ```
 
+```{r}
+ggplot(
+  salary_data, 
+  aes(years, salary)
+) + geom_point()
+```
+
+
 3. Data Splitting
 
 ```{r}
@@ -89,7 +97,7 @@ hasil_prediksi = as_tibble(
 salary_test %>% mutate(hasil_prediksi)
 ```
 
-#### Logistic Regression (Classification)
+#### Logistic Regression (Klasifikasi)
 
 Logistic regression digunakan ketika variabel target bersifat kategorikal. Model ini memprediksi probabilitas kejadian tertentu dan digunakan untuk klasifikasi.\
 Misalkan di sini kita mau memprediksi kelas bunga iris (hehehe).
@@ -105,8 +113,10 @@ loan_data = read.csv("loan.csv")
 2. Data Preprocessing
 
 ```{r}
+# Menghilangkan data N/A
 loan_data = na.omit(loan_data)
 
+# Menghilangkan data kosong
 loan_data = loan_data %>% filter(
   Gender != "",
   Married != "",
@@ -114,15 +124,10 @@ loan_data = loan_data %>% filter(
   Self_Employed != "",
 )
 
+# Menghilangkan kolom Loan_ID
 loan_data = loan_data %>% select(-Loan_ID)
 
-loan_data$Gender = as_factor(loan_data$Gender)
-loan_data$Married = as_factor(loan_data$Married)
-loan_data$Dependents = as_factor(loan_data$Dependents)
-loan_data$Education = as_factor(loan_data$Education)
-loan_data$Self_Employed = as_factor(loan_data$Self_Employed)
-loan_data$Property_Area = as_factor(loan_data$Property_Area)
-
+# Mengubah kolom loan_status menjadi bernilai 1 atau 0
 loan_data = loan_data %>% mutate(Loan_Status = ifelse(Loan_Status == "Y", 1, 0))
 ```
 
