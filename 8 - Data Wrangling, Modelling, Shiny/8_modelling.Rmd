@@ -94,13 +94,13 @@ hasil_prediksi = as_tibble(
 )
 
 # Membandingkan hasil yang asli dengan hasil prediksi
-salary_test %>% mutate(hasil_prediksi)
+salary_test = salary_test %>% mutate(hasil_prediksi)
 ```
 
 #### Logistic Regression (Klasifikasi)
 
 Logistic regression digunakan ketika variabel target bersifat kategorikal. Model ini memprediksi probabilitas kejadian tertentu dan digunakan untuk klasifikasi.\
-Misalkan di sini kita mau memprediksi kelas bunga iris (hehehe).
+Misalkan di sini kita mau memprediksi apakah seseorang layak dapat pinjaman atau engga.
 
 Langkah-langkah:
 
