@@ -1,0 +1,188 @@
+---
+title: "9_shiny"
+author: "plirapli"
+date: "`r Sys.Date()`"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+0. Import Library
+
+```{r}
+library(tidyverse)
+library(tidymodels) # <- Buat data splitting
+library(nnet) # <- Buat model multinomial logistic regression
+
+# Buat aplikasinya
+library(shiny)
+library(bslib)
+library(bsicons) # <- Buat icon
+
+# Buat dataset iris
+library(datasets)
+```
+
+Coba nampilin datanya dulu
+
+```{r}
+data(iris)
+View(iris)
+```
+
+1. Data Preprocessing
+
+```{r}
+# Tambah kolom "No." di paling kiri
+iris = iris %>% mutate("No." = row_number(), .before = Sepal.Length)
+
+# Inisiasi kelas
+kelas = levels(iris$Species)
+```
+
+2. Data Splitting
+
+```{r}
+set.seed(420)
+split = initial_split(iris, prop = 0.8, strata = Species)
+iris_train = split %>% training()
+iris_test = split %>% testing()
+```
+
+3. Modelling
+
+```{r}
+formula = "Species ~ Sepal.Length + Sepal.Width + Petal.Length + Petal.Width"
+hasil_model = multinom(formula, data = iris_train)
+
+summary(hasil_model)
+```
+
+4. Data Testing
+
+```{r}
+# Type = "probs" kalo mau outputnya berupa probabilitas
+hasil_prediksi_prob = predict(object = hasil_model, newdata = iris_test, type = "probs")
+hasil_prediksi_prob = round(hasil_prediksi_prob, digits = 2)
+hasil_prediksi_prob
+
+# Type = "class" kalo mau outputnya berupa kelas
+hasil_prediksi = predict(object = hasil_model, newdata = iris_test, type= "class")
+hasil_prediksi
+```
+
+6. Evaluasi model
+
+```{r}
+table(
+  Predicted = hasil_prediksi, 
+  True = iris_test$Species
+)
+
+akurasi = paste0(round(((10 + 8 + 10) / 30) * 100, digit = 2), "%")
+```
+
+7. Implementasi ke UI
+
+```{r}
+# Bikin UI
+ui = page_fluid(
+  titlePanel("Dataset Iris"),
+  layout_columns(
+    value_box( 
+      "Jumlah Setosa",
+      nrow(iris %>% filter(Species == "setosa")),
+      theme = "bg-primary-subtle"
+    ),
+    value_box( 
+      "Jumlah Versicolor",
+      nrow(iris %>% filter(Species == "versicolor")),
+      theme = "bg-success-subtle"
+    ),
+    value_box( 
+      "Jumlah Virginica",
+      nrow(iris %>% filter(Species == "virginica")),
+      theme = "bg-danger-subtle"
+    ),
+  ),
+  selectInput(
+    "species",
+    "Pilih Jenis Spesies:",
+    levels(iris$Species)
+  ),
+  tableOutput("table_iris"),
+  tags$br(), # <- Ganti Baris
+  
+  titlePanel("Data Splitting"),
+  layout_columns(
+    value_box(
+      "Data Training",
+      nrow(iris_train),
+      showcase = bsicons::bs_icon("list-task"),
+      theme = "text-primary"
+    ),
+    value_box(
+      "Data Testing",
+      nrow(iris_test),
+      showcase = bsicons::bs_icon("list-check"),
+      theme = "text-success"
+    ),
+  ),
+  tags$br(), # <- Ganti Baris
+  
+  titlePanel("Metrik Evaluasi"),
+  value_box(
+    "Akurasi",
+    akurasi,
+    theme = "text-success"
+  ),
+  tags$br(), # <- Ganti Baris
+  
+  titlePanel("Uji Coba"),
+  layout_columns(
+    numericInput( "sl", "Sepal Length", value = 1),
+    numericInput( "sw", "Sepal Width", value = 1),
+    numericInput("pl", "Petal Length", value = 1),
+    numericInput("pw", "Petal Width", value = 1),
+  ),
+  submitButton(text = "Klasifikasi Spesies"),
+  tags$br(), # <- Ganti Baris
+  
+  textOutput("hasil_klasifikasi"),
+  tags$br(), # <- Ganti Baris
+)
+
+# Bikin fungsionalitas
+server = function(input, output) {
+  output$table_iris = renderTable(
+    head(subset(iris, Species == input$species)),
+    striped = TRUE # Ngasih garis-garis
+  )
+  
+  output$hasil_klasifikasi = renderText({
+    # Buat dataframe berdasarkan input
+    input_prediksi = data.frame(
+      Sepal.Length = input$sl,
+      Sepal.Width = input$sw,
+      Petal.Length = input$pl,
+      Petal.Width = input$pw
+    )
+    
+    # Prediksi kelas
+    hasil_kelas = predict(object = hasil_model, newdata = input_prediksi, type= "class")
+    
+    # Prediksi probabilitas
+    hasil_prob = predict(object = hasil_model, newdata = input_prediksi, type= "prob")
+    hasil_prob = hasil_prob[hasil_kelas] * 100
+    
+    paste(kelas[hasil_kelas], hasil_prob, sep = ", ")
+  })
+}
+
+shinyApp(ui, server)
+```
+
+
+
