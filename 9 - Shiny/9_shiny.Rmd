@@ -147,7 +147,8 @@ ui = page_fluid(
     numericInput("pl", "Petal Length", value = 1),
     numericInput("pw", "Petal Width", value = 1),
   ),
-  submitButton(text = "Klasifikasi Spesies"),
+  actionButton("cek_klasifikasi", "Klasifikasi Spesies"), 
+  tags$br(), # <- Ganti Baris
   tags$br(), # <- Ganti Baris
   
   textOutput("hasil_klasifikasi"),
@@ -157,8 +158,8 @@ ui = page_fluid(
 # Bikin fungsionalitas
 server = function(input, output) {
   output$table_iris = renderTable(
-    head(subset(iris, Species == input$species)),
-    striped = TRUE # Ngasih garis-garis
+    head(iris %>% filter(Species == input$species)),
+    striped = TRUE # <- Ngasih garis-garis
   )
   
   output$hasil_klasifikasi = renderText({
@@ -178,7 +179,7 @@ server = function(input, output) {
     hasil_prob = hasil_prob[hasil_kelas] * 100
     
     paste(kelas[hasil_kelas], hasil_prob, sep = ", ")
-  })
+  }) |> bindEvent(input$cek_klasifikasi)
 }
 
 shinyApp(ui, server)
