@@ -15,14 +15,6 @@ knitr::opts_chunk$set(echo = TRUE)
 library(tidyverse)
 library(tidymodels) # <- Buat data splitting
 library(nnet) # <- Buat model multinomial logistic regression
-
-# Buat aplikasinya
-library(shiny)
-library(bslib)
-library(bsicons) # <- Buat icon
-
-# Buat dataset iris
-library(datasets)
 ```
 
 Coba nampilin datanya dulu
@@ -35,9 +27,6 @@ View(iris)
 1. Data Preprocessing
 
 ```{r}
-# Tambah kolom "No." di paling kiri
-iris = iris %>% mutate("No." = row_number(), .before = Sepal.Length)
-
 # Inisiasi kelas
 kelas = levels(iris$Species)
 ```
@@ -82,9 +71,17 @@ table(
 )
 
 akurasi = paste0(round(((10 + 8 + 10) / 30) * 100, digit = 2), "%")
+akurasi
 ```
 
 7. Implementasi ke UI
+
+```{r}
+# Buat aplikasinya
+library(shiny)
+library(bslib)
+library(bsicons) # <- Buat icon
+```
 
 ```{r}
 # Bikin UI
@@ -133,11 +130,7 @@ ui = page_fluid(
   tags$br(), # <- Ganti Baris
   
   titlePanel("Metrik Evaluasi"),
-  value_box(
-    "Akurasi",
-    akurasi,
-    theme = "text-success"
-  ),
+  value_box("Akurasi", akurasi, theme = "text-success"),
   tags$br(), # <- Ganti Baris
   
   titlePanel("Uji Coba"),
@@ -159,6 +152,7 @@ ui = page_fluid(
 server = function(input, output) {
   output$table_iris = renderTable(
     head(iris %>% filter(Species == input$species)),
+    width = "100%",
     striped = TRUE # <- Ngasih garis-garis
   )
   
